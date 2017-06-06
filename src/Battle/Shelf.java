@@ -1,0 +1,68 @@
+package Battle;
+
+import processing.core.PApplet;
+import processing.core.PVector;
+/**
+ * Created by USER on 2017/5/23.
+ */
+public class Shelf {
+    private PApplet parent;
+    private DefensiveItem item;
+    private int shelfWidth;
+    private int shelfHeight;
+    private int itemWidth;
+    private int itemHeight;
+    private PVector position;// upper left position
+
+    public Shelf(PApplet parent, DefensiveItem item, int shelfW, int shelfH, float posX, float posY){
+           this.parent = parent;
+           position = new PVector(posX, posY);
+           this.shelfWidth = shelfW;
+           this.shelfHeight = shelfH;
+           this.item = item;
+           itemWidth = shelfH;
+           itemHeight = shelfH;
+    }
+
+    private void showBar(float posX, float posY, float barWidth, float barHeight){
+            parent.fill(250, 250, 250, 180);
+            parent.rect(posX, posY, barWidth, barHeight);
+    }
+
+    public boolean checkMouseOnShelf(){
+            if(parent.mouseX < position.x || parent.mouseX > position.x + shelfWidth) return false;
+            else if(parent.mouseY < position.y || parent.mouseY > position.y + shelfHeight) return false;
+            else return true;
+    }
+
+    public void showValueWindos(){
+           parent.fill(81, 98, 2226, 134);
+           float mX = parent.mouseX;
+           float mY = parent.mouseY;
+
+           if(mY + BattleSetting.windowHeight > BattleSetting.backgroundHeight) mY = mY - BattleSetting.windowHeight;
+           parent.rect(mX, mY, BattleSetting.windowWidth, BattleSetting.windowHeight, BattleSetting.backgroundHeight/50);
+           parent.fill(255, 255, 255);
+           parent.line(mX, mY + BattleSetting.windowHeight/3, mX + BattleSetting.windowWidth, mY + BattleSetting.windowHeight/3);
+           parent.textSize(BattleSetting.windowHeight/3);
+
+           parent.textAlign(parent.CENTER, parent.BOTTOM);
+           parent.text(item.getName(), mX + BattleSetting.windowWidth/2, mY + BattleSetting.windowHeight/3);
+
+           parent.textAlign(parent.LEFT, parent.BOTTOM);
+           parent.textSize(BattleSetting.windowHeight/4);
+           parent.text("LUK: +" + item.getLuckyValue(), mX, mY + BattleSetting.windowHeight*2/3);
+           parent.text("DEF: +" + item.getDefValue(), mX, mY + BattleSetting.windowHeight);
+    }
+
+    public void display(){
+           float barWidth = shelfWidth - itemWidth;
+           showBar(position.x + itemWidth,                 position.y, shelfWidth - itemWidth, shelfHeight / 2);
+           showBar(position.x + itemWidth, shelfHeight/2 + position.y, shelfWidth - itemWidth, shelfHeight / 2);
+           item.display(position.x, position.y, barWidth, itemHeight, 0);
+    }
+
+    public DefensiveItem getItem(){
+           return item;
+    }
+}
