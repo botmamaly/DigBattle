@@ -1,6 +1,7 @@
 package Battle;
 
 import Bag.BagMine;
+import Window.MessageBox;
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
@@ -21,7 +22,9 @@ public class BattleShop {
     private ArrayList<Shelf> shopList;
     private PImage background;
     private boolean[] visit;
-    private BagMine bagMine;
+    private BagMine bag;
+    private ShopState shopState;
+    private MessageBox checkBox;
 
     private void generateList(int n){
         int []req = new int[6];
@@ -35,7 +38,7 @@ public class BattleShop {
     }
 
     private void test(){
-            bagMine = new BagMine(parent);
+            bag = new BagMine(parent);
     }
 
     public BattleShop(PApplet parent, int maxItem, int bgWidth, int bgHeight){
@@ -43,6 +46,7 @@ public class BattleShop {
         this.parent = parent;
         itemListSum = maxItem;
         shopListSum = 6;
+        shopState = ShopState.SELECT;
         background = parent.loadImage("img/background.jpg");
         visit = new boolean[maxItem];
         defItemList = new ArrayList<DefensiveItem>();
@@ -52,6 +56,7 @@ public class BattleShop {
         this.bgWidth = bgWidth;
         shelfHeight = (bgHeight - 70) / (shopListSum);
         shelfWidth = bgWidth * 2 / 3 - 10;
+        checkBox = new MessageBox(parent, (BattleSetting.backgroundWidth-BattleSetting.windowWidth)/2, (BattleSetting.backgroundHeight-BattleSetting.windowHeight)/2, BattleSetting.windowWidth, BattleSetting.windowHeight, "CHECK");
         updateShop();
     }
 
@@ -101,16 +106,24 @@ public class BattleShop {
                     parent.rect(gridX, gridY, gridW, gridH);
                     parent.image(DefensiveItem.mine[r*2 + c], gridX + x_interval, gridY + y_interval, gridW - x_interval*2, gridH - y_interval*2);
                     parent.fill(0, 0, 0);
-                    parent.text(bagMine.getNum(r*2+c), gridX, gridY + gridH - 2);
+                    parent.text(bag.getNum(r*2+c), gridX, gridY + gridH - 2);
                 }
             }
     }
 
     public void buyItem(){
-         for(Shelf tmp : shopList) {
-             if (tmp.checkMouseOnShelf()) {
-                 Battle.totalDef += tmp.getItem().getDefValue();
-                 Battle.totalLuk += tmp.getItem().getLuckyValue();
+         for(Shelf shelf : shopList) {
+             if (shelf.checkMouseOnShelf()) {
+                 if( shelf.isValidBuy(bag.getMine())){
+                     Battle.totalDef += shelf.getItem().getDefValue();
+                     Battle.totalLuk += shelf.getItem().getLuckyValue();
+                     bag.takeMine(shelf.getItem().getRequire());
+                 }
+                 else{
+                     parent.textAlign(parent.CENTER, parent.CENTER);
+                     parent.textSize(BattleSetting.backgroundWidth/2);
+                     parent.text("87", BattleSetting.backgroundWidth/2, BattleSetting.backgroundHeight/2);
+                 }
              }
          }
     }
@@ -123,9 +136,14 @@ public class BattleShop {
 
         showBag(  BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace, BattleSetting.backgroundHeight*5/9 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*4/9 - BattleSetting.heightSpace*2);
         showValue(BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace,   BattleSetting.backgroundHeight/3 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*2/9 - BattleSetting.heightSpace*2);
+        checkBox.display("8787");
         for(Shelf tmp : shopList){
             if(tmp.checkMouseOnShelf()) tmp.showValueWindos();
         }
     }
 
+}
+
+enum ShopState{
+     SELECT, CHECK;
 }

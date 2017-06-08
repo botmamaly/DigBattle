@@ -19,9 +19,9 @@ public class BattleSetting {
     public static int heightSpace = 10;
 
     public static float shelfRate = (float) (2.0 / 3);
-    public static float windowWidth = 400;
     public static float backgroundWidth = 840;
     public static float backgroundHeight = 600;
+    public static float windowWidth = 400;
     public static float windowHeight = 200;
     public static float timerWidth;
     public static float timerHeight;

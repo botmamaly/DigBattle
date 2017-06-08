@@ -15,7 +15,6 @@ public class BattleFight {
               this.bg = parent.loadImage("img/fight.jpg");
        }
 
-
        public void display(){
               parent.image(bg, 0, 0, BattleSetting.backgroundWidth, BattleSetting.backgroundHeight);
        }

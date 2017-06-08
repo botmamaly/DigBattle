@@ -36,7 +36,8 @@ public class Shelf {
     }
 
     public void showValueWindos(){
-           parent.fill(81, 98, 2226, 134);
+           parent.fill(0, 51, 204, 150);//windows rgb
+//        parent.fill(1, 80, 136, 150);//windows rgb
            float mX = parent.mouseX;
            float mY = parent.mouseY;
 
@@ -60,6 +61,14 @@ public class Shelf {
            showBar(position.x + itemWidth,                 position.y, shelfWidth - itemWidth, shelfHeight / 2);
            showBar(position.x + itemWidth, shelfHeight/2 + position.y, shelfWidth - itemWidth, shelfHeight / 2);
            item.display(position.x, position.y, barWidth, itemHeight, 0);
+    }
+
+    public boolean isValidBuy(int[] bagmine) {
+           int []check = item.getRequire();
+           for(int i = 0; i < 6; i++) {
+               if (check[i] > bagmine[i]) return false;
+           }
+           return true;
     }
 
     public DefensiveItem getItem(){

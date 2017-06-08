@@ -26,6 +26,10 @@ public class DefensiveItem {
         for(int i = 0; i < 6; i++)
             require[i] = req[i];
     }
+    public int []getRequire(){
+        return require;
+    }
+
     public String getName(){
            return name;
     }
