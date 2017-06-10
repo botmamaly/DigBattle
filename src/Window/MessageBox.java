@@ -48,7 +48,8 @@ public class MessageBox {
        }
 
        public int checkMousePressed(){
-              if(yesButton.checkMouseAt()) return 1;
+              if(yesButton.checkMouseAt()) return 2;
+              else if(noButton.checkMouseAt()) return 1;
               else return 0;
        }
 

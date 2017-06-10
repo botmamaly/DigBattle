@@ -44,7 +44,7 @@ public class Battle{
               Battle.totalLuk = 0;
               DefensiveItem.mine = new PImage[6];
               for(int i = 0; i < 6; i++)  DefensiveItem.mine[i] = parent.loadImage("img/mine" + i + ".png");
-              timer.start();
+//              timer.start();
        }
 
        public void display(){

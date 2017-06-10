@@ -21,7 +21,7 @@ public class BagMine {
         this.par = par;
         mine = new int[6 + 10];
         for(int i = 0; i < 6; i++){
-            mine[i] = 0;
+            mine[i] = 100;
         }
     }
 

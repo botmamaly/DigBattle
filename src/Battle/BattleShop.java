@@ -18,6 +18,7 @@ public class BattleShop {
     private int shelfHeight;
     private int bgWidth;
     private int bgHeight;
+
     private ArrayList<DefensiveItem> defItemList;
     private ArrayList<Shelf> shopList;
     private PImage background;
@@ -25,6 +26,7 @@ public class BattleShop {
     private BagMine bag;
     private ShopState shopState;
     private MessageBox checkBox;
+    private Shelf targetShelf;
 
     private void generateList(int n){
         int []req = new int[6];
@@ -77,7 +79,7 @@ public class BattleShop {
         System.out.println(shopList.size());
     }
 
-    private void showValue(float x, float y, float boxW, float boxH){
+    private void showTotalValue(float x, float y, float boxW, float boxH){
         parent.fill(244, 66, 75, 200);
         parent.rect(x, y, boxW, boxH);
         float textSz = (boxH - BattleSetting.heightSpace*3)/2;
@@ -112,17 +114,32 @@ public class BattleShop {
     }
 
     public void buyItem(){
-         for(Shelf shelf : shopList) {
-             if (shelf.checkMouseOnShelf()) {
-                 if( shelf.isValidBuy(bag.getMine())){
-                     Battle.totalDef += shelf.getItem().getDefValue();
-                     Battle.totalLuk += shelf.getItem().getLuckyValue();
-                     bag.takeMine(shelf.getItem().getRequire());
+         if(shopState == ShopState.SELECT){
+             for(Shelf shelf : shopList)
+             {
+                 if (shelf.checkMouseOnShelf()) {
+                     targetShelf = shelf;
+                     shopState = ShopState.CHECK;
+                     break;
                  }
-                 else{
-                     parent.textAlign(parent.CENTER, parent.CENTER);
-                     parent.textSize(BattleSetting.backgroundWidth/2);
-                     parent.text("87", BattleSetting.backgroundWidth/2, BattleSetting.backgroundHeight/2);
+             }
+         }
+         else{
+             int isBuy = checkBox.checkMousePressed();
+             if(isBuy >= 1)
+             {
+                 shopState = ShopState.SELECT;
+                 if(isBuy == 2) {
+                     if( targetShelf.isValidBuy(bag.getMine())){
+                         Battle.totalDef += targetShelf.getItem().getDefValue();
+                         Battle.totalLuk += targetShelf.getItem().getLuckyValue();
+                         bag.takeMine(targetShelf.getItem().getRequire());
+                     }
+                     else{
+                         parent.textAlign(parent.CENTER, parent.CENTER);
+                         parent.textSize(BattleSetting.backgroundWidth/2);
+                         parent.text("87", BattleSetting.backgroundWidth/2, BattleSetting.backgroundHeight/2);
+                     }
                  }
              }
          }
@@ -133,12 +150,16 @@ public class BattleShop {
         for(int i = 0; i < shopList.size(); i++){
             shopList.get(i).display();
         }
-
         showBag(  BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace, BattleSetting.backgroundHeight*5/9 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*4/9 - BattleSetting.heightSpace*2);
-        showValue(BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace,   BattleSetting.backgroundHeight/3 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*2/9 - BattleSetting.heightSpace*2);
-        checkBox.display("8787");
-        for(Shelf tmp : shopList){
-            if(tmp.checkMouseOnShelf()) tmp.showValueWindos();
+        showTotalValue(BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace,   BattleSetting.backgroundHeight/3 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*2/9 - BattleSetting.heightSpace*2);
+
+        if(shopState == ShopState.SELECT){
+            for(Shelf tmp : shopList){
+                if(tmp.checkMouseOnShelf()) tmp.showValueWindos();
+            }
+        }
+        else{
+            checkBox.display("8787");
         }
     }
 
