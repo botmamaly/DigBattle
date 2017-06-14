@@ -11,7 +11,7 @@ public class Timer extends Thread{
        int remainTime;
        public Timer(PApplet parent){
               this.parent = parent;
-              remainTime = 30;
+              remainTime = 10;
        }
 
        @Override

@@ -1,8 +1,7 @@
-package Battle;
-
 /**
  * Created by USER on 2017/6/3.
  */
+import Battle.Battle;
 import processing.core.PApplet;
 
 public class Main extends PApplet{
@@ -15,16 +14,27 @@ public class Main extends PApplet{
     @Override
     public void setup(){
       battle = new Battle(this);
+      frameRate(1000);
+      battle.reset();
     }
 
     @Override
     public void draw(){
-        battle.display();
+        if (frameCount % 2 == 0) {
+            battle.display();
+            textSize(30);
+            text(frameRate, 50, 50);
+        }
     }
 
     @Override
     public void mousePressed(){
         System.out.println("mouse Pressed");
+        battle.checkMouseClicked();
+//        thread("test");
+    }
+
+    public void test(){
         battle.checkMouseClicked();
     }
 

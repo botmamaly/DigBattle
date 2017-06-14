@@ -30,7 +30,7 @@ public class BattleShop {
 
     private void generateList(int n){
         int []req = new int[6];
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             int luckyNum = (int)(Math.random()*51);
             int defNum = (int)(Math.random()*itemListSum);
             for(int j = 0; j < 6; j++) req[j] = (int)(Math.random() * 10);
@@ -66,8 +66,7 @@ public class BattleShop {
         shopList.clear();
         Arrays.fill(visit, false);
         Shelf tmpShelf;
-        for(int i = 0; i < shopListSum;)
-        {
+        for (int i = 0; i < shopListSum; ) {
             int itemNum = (int)(Math.random() * itemListSum);
             if (visit[itemNum] == false) {
                 tmpShelf = new Shelf(parent, defItemList.get(itemNum), shelfWidth, shelfHeight, BattleSetting.leftSpace, BattleSetting.leftSpace + i * (shelfHeight + 10));
@@ -100,8 +99,8 @@ public class BattleShop {
             parent.textAlign(parent.BOTTOM, parent.LEFT);
             parent.textSize(gridH/4);
 
-            for(int r = 0; r < 3; r++){
-                for(int c = 0; c < 2; c++){
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 2; c++) {
                     float gridX = x + gridW*c + x_interval*(c+1);
                     float gridY = y + gridH*r + y_interval*(r+1);
                     parent.fill(206, 150, 101);
@@ -113,7 +112,7 @@ public class BattleShop {
             }
     }
 
-    public void buyItem(){
+    public void buyItem() {
          if(shopState == ShopState.SELECT){
              for(Shelf shelf : shopList)
              {
@@ -126,7 +125,7 @@ public class BattleShop {
          }
          else{
              int isBuy = checkBox.checkMousePressed();
-             if(isBuy >= 1)
+             if(isBuy >= 1)//no = 1, yes = 2, else = 0
              {
                  shopState = ShopState.SELECT;
                  if(isBuy == 2) {
@@ -134,8 +133,7 @@ public class BattleShop {
                          Battle.totalDef += targetShelf.getItem().getDefValue();
                          Battle.totalLuk += targetShelf.getItem().getLuckyValue();
                          bag.takeMine(targetShelf.getItem().getRequire());
-                     }
-                     else{
+                     } else{
                          parent.textAlign(parent.CENTER, parent.CENTER);
                          parent.textSize(BattleSetting.backgroundWidth/2);
                          parent.text("87", BattleSetting.backgroundWidth/2, BattleSetting.backgroundHeight/2);
@@ -147,9 +145,11 @@ public class BattleShop {
 
     public void display(){
         parent.image(background, 0, 0, bgWidth, bgHeight);
+
         for(int i = 0; i < shopList.size(); i++){
             shopList.get(i).display();
         }
+
         showBag(  BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace, BattleSetting.backgroundHeight*5/9 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*4/9 - BattleSetting.heightSpace*2);
         showTotalValue(BattleSetting.backgroundWidth*2/3 + BattleSetting.leftSpace,   BattleSetting.backgroundHeight/3 + BattleSetting.heightSpace, BattleSetting.backgroundWidth/3 - BattleSetting.leftSpace*2, BattleSetting.backgroundHeight*2/9 - BattleSetting.heightSpace*2);
 
@@ -159,10 +159,9 @@ public class BattleShop {
             }
         }
         else{
-            checkBox.display("8787");
+            checkBox.display("Buy " + targetShelf.getItem().getName() + "?");
         }
     }
-
 }
 
 enum ShopState{

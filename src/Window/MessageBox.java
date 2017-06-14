@@ -15,7 +15,7 @@ public class MessageBox {
        private float height;
        private String title;
 
-       public MessageBox(PApplet parent, float x, float y, float wid, float height, String title){
+       public MessageBox(PApplet parent, float x, float y, float wid, float height, String title) {
             this.parent = parent;
             pos = new PVector(x, y);
             this.title = title;
@@ -30,9 +30,9 @@ public class MessageBox {
             noButton  = new Button(parent, pos.x + x_interval*2 + buttonWid, pos.y + height*3/5, buttonWid, buttonHei, "NO");
        }
 
-       public void display(String message){
+       public void display(String message) {
             parent.fill(0, 0, 0);
-            parent.rect(pos.x, pos.y, width, height);
+            parent.rect(pos.x, pos.y, width, height, height/10);
             float y_interval = height / 20;
             //show title
             parent.textAlign(parent.CENTER, parent.BOTTOM);
@@ -40,15 +40,15 @@ public class MessageBox {
             parent.fill(255, 255, 255);
             parent.text(title, pos.x + width/2, pos.y + height/5 - y_interval);
             //show message
-            parent.textSize(height*2/5 - y_interval);
+            parent.textSize(height*1/5 - y_interval);
             parent.text(message, pos.x + width/2, pos.y + height*3/5 - y_interval);
             // show button
             yesButton.display();
             noButton.display();
        }
 
-       public int checkMousePressed(){
-              if(yesButton.checkMouseAt()) return 2;
+       public int checkMousePressed() {
+              if (yesButton.checkMouseAt()) return 2;
               else if(noButton.checkMouseAt()) return 1;
               else return 0;
        }

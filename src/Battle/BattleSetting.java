@@ -26,6 +26,5 @@ public class BattleSetting {
     public static float timerWidth;
     public static float timerHeight;
 
-
     public static String [] itemName = {"Allahu akbar", "ABCD", "GGG", "SHIELD", "阿拉花瓜", "Kappa", "MingLee", "?????", "BloodTrail"};
 }

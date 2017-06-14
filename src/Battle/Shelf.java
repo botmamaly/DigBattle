@@ -14,7 +14,7 @@ public class Shelf {
     private int itemHeight;
     private PVector position;// upper left position
 
-    public Shelf(PApplet parent, DefensiveItem item, int shelfW, int shelfH, float posX, float posY){
+    public Shelf(PApplet parent, DefensiveItem item, int shelfW, int shelfH, float posX, float posY) {
            this.parent = parent;
            position = new PVector(posX, posY);
            this.shelfWidth = shelfW;
@@ -24,18 +24,18 @@ public class Shelf {
            itemHeight = shelfH;
     }
 
-    private void showBar(float posX, float posY, float barWidth, float barHeight){
+    private void showBar(float posX, float posY, float barWidth, float barHeight) {
             parent.fill(250, 250, 250, 180);
             parent.rect(posX, posY, barWidth, barHeight);
     }
 
-    public boolean checkMouseOnShelf(){
+    public boolean checkMouseOnShelf() {
             if(parent.mouseX < position.x || parent.mouseX > position.x + shelfWidth) return false;
             else if(parent.mouseY < position.y || parent.mouseY > position.y + shelfHeight) return false;
             else return true;
     }
 
-    public void showValueWindos(){
+    public void showValueWindos() {
            parent.fill(0, 51, 204, 150);//windows rgb
 //        parent.fill(1, 80, 136, 150);//windows rgb
            float mX = parent.mouseX;
@@ -56,7 +56,7 @@ public class Shelf {
            parent.text("DEF: +" + item.getDefValue(), mX, mY + BattleSetting.windowHeight);
     }
 
-    public void display(){
+    public void display() {
            float barWidth = shelfWidth - itemWidth;
            showBar(position.x + itemWidth,                 position.y, shelfWidth - itemWidth, shelfHeight / 2);
            showBar(position.x + itemWidth, shelfHeight/2 + position.y, shelfWidth - itemWidth, shelfHeight / 2);
@@ -65,13 +65,13 @@ public class Shelf {
 
     public boolean isValidBuy(int[] bagmine) {
            int []check = item.getRequire();
-           for(int i = 0; i < 6; i++) {
+           for (int i = 0; i < 6; i++) {
                if (check[i] > bagmine[i]) return false;
            }
            return true;
     }
 
-    public DefensiveItem getItem(){
+    public DefensiveItem getItem() {
            return item;
     }
 }
